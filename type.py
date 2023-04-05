@@ -6,7 +6,7 @@ from typing import Union, Callable, Optional, Any, List
 from typing import _GenericAlias, _UnionGenericAlias
 
 
-class Template(ABC):
+class Template:
     def to_dict(self):
         return vars(self)
 
@@ -127,3 +127,5 @@ def check_getter_setter_type(t):
         if len(args) == 2 and check_type(args[0], Callable) and check_type(args[1], Callable):
             return args[0], args[1]
     return False
+
+

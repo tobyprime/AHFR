@@ -3,7 +3,7 @@ from type import *
 from xml.etree import ElementTree
 
 
-def JsonParser(container: type, data):
+def JsonParser(container: type|dict, data):
     data = json.loads(data)
     return ValueParser(container, data)
 
@@ -14,6 +14,11 @@ def ValueParser(container: type, value: dict):
         for k, v in container.__annotations__.items():
             if k[0] == "_":
                 continue
+
+            if check_type(v, dict):
+                obj = Template()
+                for k_, v_ in v:
+                    obj.__setattr__(k_, ValueParser(v_, value[k][k_]))
 
             if check_any_type(v):
                 result.__setattr__(k, value[k])
