@@ -15,7 +15,7 @@ class Template(ABC):
 
 
 class XMLElementTemplate(Template):
-    attr: Optional[dict]
+    attr: Optional[Any]
     value: ...
 
     def __getitem__(self, item):
@@ -23,6 +23,12 @@ class XMLElementTemplate(Template):
 
     def __call__(self, *args, **kwargs):
         return self.value
+
+    def __getattr__(self, name: str):
+        if hasattr(self.value, name):
+            return getattr(self.value, name)
+        if hasattr(self.attr, name):
+            return getattr(self.attr, name)
 
 
 class SpecialForm:

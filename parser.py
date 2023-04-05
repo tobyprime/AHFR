@@ -30,7 +30,8 @@ def ValueParser(container: type, value: dict):
 
             true_type = check_optional_type(v)
             if true_type:
-                result.__setattr__(k, ValueParser(true_type, value[k]) if k in value.keys() else None)
+                if k in value.keys():
+                    result.__setattr__(k, ValueParser(true_type, value[k]))
                 continue
 
             getter_setter = check_getter_setter_type(v)
